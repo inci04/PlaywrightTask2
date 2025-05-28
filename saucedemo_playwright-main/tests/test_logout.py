@@ -10,12 +10,11 @@ from fixtures.saucedemo import *
 @pytest.mark.parametrize("logged_in_page", ["standard_user"], indirect=True)
 def test_logout_functionality(logged_in_page):
     page = logged_in_page
-    expect(page.locator("[data-test=\"title\"]")).to_be_visible()
-    expect(page.locator("[data-test=\"title\"]")).to_contain_text("Products")
-    expect(page.locator("[data-test=\"primary-header\"] div").filter(has_text="Swag Labs").first).to_be_visible()
+    expect(page.locator(LOCATOR_TITLE)).to_be_visible()
+    expect(page.locator(LOCATOR_TITLE)).to_contain_text(CONSTANTS_LOGOUT_PRODUCTS_TITLE)
+    expect(page.get_by_role("button", name="Open Menu")).to_be_visible()
     page.get_by_role("button", name="Open Menu").click()
-    expect(page.locator("[data-test=\"logout-sidebar-link\"]")).to_be_visible()
-    expect(page.locator("[data-test=\"logout-sidebar-link\"]")).to_contain_text("Logout")
-    page.locator("[data-test=\"logout-sidebar-link\"]").click()
-    expect(page.locator("[data-test=\"login-container\"] div").filter(has_text="Login").first).to_be_visible()
-    
+    expect(page.locator(LOCATOR_LOGOUT_SIDEBAR_LINK)).to_be_visible()
+    expect(page.locator(LOCATOR_LOGOUT_SIDEBAR_LINK)).to_contain_text(CONSTANTS_LOGOUT_SIDEBAR_TEXT)
+    page.locator(LOCATOR_LOGOUT_SIDEBAR_LINK).click()
+    expect(page.locator(LOCATOR_LOGIN_CONTAINER).filter(has_text=CONSTANTS_LOGOUT_LOGIN_TEXT).first).to_be_visible()
